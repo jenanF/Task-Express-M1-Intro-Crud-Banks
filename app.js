@@ -14,6 +14,13 @@ const createNewAccount = (newAccountData) => {
 
 }
 
+
+const updateAccount = (accountData, updatedData) => {
+    const updateAccount = Object.assign(accountData, updatedData);
+    return updateAccount;
+
+}
+
 app.get('/accounts', (req, res) => {
     res.status(200).json(accounts)
 })
@@ -35,6 +42,36 @@ app.delete('/accounts/:id', (req, res) => {
         res.status(404).json()
     }
 })
+
+app.put('/accounts/:id', (req, res) => {
+    const { id } = req.params
+    const account = accounts.find((account) => account.id == id);
+    console.log(account);
+
+    if (account) {
+        const updatedAccount = updateAccount(account, req.body);
+        console.log(updatedAccount)
+        res.status(200).json(updatedAccount)
+    } else {
+        res.status(404).json()
+    }
+
+})
+
+app.get('/accounts/:name', (req, res) => {
+    const { name } = req.params
+    const account = accounts.find((account) => account.username == name);
+    console.log(account);
+
+    if (account) {
+        res.status(200).json(account)
+    } else {
+        res.status(404).json()
+    }
+})
+
+
+
 
 app.listen(8000, () => {
 
